@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${modoEdicion} ? 'Editar Usuario' : 'Nuevo Usuario'"></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f4f4f4; }
+        .container { width: 100%; max-width: 500px; text-align: center; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { margin-bottom: 20px; color: #333; }
+        .campo { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .error { color: red; font-size: 13px; margin-top: 4px; }
+        .acciones { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; display: inline-block; }
+        .btn-guardar { background-color: #01415B; color: white; }
+        .btn-volver { background-color: #6c757d; color: white; }
+        .btn-eliminar { background-color: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 th:text="${modoEdicion} ? 'Editar Usuario' : 'Nuevo Usuario'"></h1>
+
+    <form th:action="${modoEdicion} ? @{/usuarios/actualizar/{id}(id=${usuario.idUsuario})} : @{/usuarios/guardar}"
+          th:object="${usuario}"
+          method="post">
+
+        <input type="hidden" th:field="*{codigoUsuario}" th:if="${modoEdicion}">
+
+
+
+        <div class="campo">
+            <label for="nombreUsuario">Nombre</label>
+            <input type="text" id="nombreUsuario" th:field="*{nombreUsuario}">
+            <div class="error" th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="contraseña">Contraseña</label>
+            <input type="text" id="contraseña" th:field="*{contraseña}">
+            <div class="error" th:if="${#fields.hasErrors('contraseña')}" th:errors="*{contraseña}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" th:field="*{correo}">
+            <div class="error" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="rol">rol</label>
+            <input type="text" id="rol" th:field="*{rol}">
+            <div class="error" th:if="${#fields.hasErrors('rol')}" th:errors="*{rol}"></div>
+        </div>
+
+        <div class="estadoUsuario">
+            <label for="estadoUsuario">Estado</label>
+            <input type="text" id="estadoUsuario" th:field="*{estadoUsuario}">
+            <div class="error" th:if="${#fields.hasErrors('estadoUsuario')}" th:errors="*{estadoUsuario}"></div>
+        </div>
+
+        <div class="acciones">
+            <button type="submit" class="btn btn-guardar"
+                    th:text="${modoEdicion} ? 'Actualizar' : 'Guardar'"></button>
+
+            <a th:href="@{/usuarios}" class="btn btn-volver">Volver</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

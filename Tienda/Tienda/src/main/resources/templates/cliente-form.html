@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${modoEdicion} ? 'Editar Clientes' : 'Nuevo Cliente'"></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f4f4f4; }
+        .container { width: 100%; max-width: 500px; text-align: center; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { margin-bottom: 20px; color: #333; }
+        .campo { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .error { color: red; font-size: 13px; margin-top: 4px; }
+        .acciones { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; display: inline-block; }
+        .btn-guardar { background-color: #01415B; color: white; }
+        .btn-volver { background-color: #6c757d; color: white; }
+        .btn-eliminar { background-color: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 th:text="${modoEdicion} ? 'Editar Cliente' : 'Nuevo Cliente'"></h1>
+
+    <form th:action="${modoEdicion} ? @{/clientes/actualizar/{id}(id=${cliente.idUsuario})} : @{/clientes/guardar}"
+          th:object="${cliente}"
+          method="post">
+
+        <input type="hidden" th:field="*{dpíCliente}" th:if="${modoEdicion}">
+
+
+        <div class="campo">
+            <label for="dpíCliente">Dpi</label>
+            <input type="number" id="dpíCliente" th:field="*{dpíCliente}">
+            <div class="error" th:if="${#fields.hasErrors('dpíCliente')}" th:errors="*{dpíCliente}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="nombreCliente">Nombre</label>
+            <input type="text" id="nombreCliente" th:field="*{nombreCliente}">
+            <div class="error" th:if="${#fields.hasErrors('nombreCliente')}" th:errors="*{nombreCliente}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="apellidoCliente">Apellido</label>
+            <input type="text" id="apellidoCliente" th:field="*{apellidoCliente}">
+            <div class="error" th:if="${#fields.hasErrors('apellidoCliente')}" th:errors="*{apellidoCliente}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="direccion">Direccion</label>
+            <input type="text" id="direccion" th:field="*{direccion}">
+            <div class="error" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="estadoCliente">Estado</label>
+            <input type="text" id="estadoCliente" th:field="*{estadoCliente}">
+            <div class="error" th:if="${#fields.hasErrors('estadoCliente')}" th:errors="*{estadoCliente}"></div>
+        </div>
+
+
+        <div class="acciones">
+            <button type="submit" class="btn btn-guardar"
+                    th:text="${modoEdicion} ? 'Actualizar' : 'Guardar'"></button>
+
+            <a th:href="@{/clientes}" class="btn btn-volver">Volver</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

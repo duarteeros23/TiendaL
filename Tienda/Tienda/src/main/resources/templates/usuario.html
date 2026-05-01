@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gestión de Usuarios</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f4f0;
+            color: #1a1a18;
+            padding: 2rem 1rem;
+        }
+
+        h1 { font-size: 24px; text-align: center; margin-bottom: 2rem; }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 1000px; /* Un poco más ancho para dar aire */
+            margin: 0 auto 1.5rem auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6b6b67;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .btn-nuevo {
+            display: inline-block;
+            background-color: #01415B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-nuevo:hover { opacity: 0.9; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            table-layout: fixed; /* CLAVE: Evita que las celdas se estiren */
+        }
+
+        thead th {
+            text-align: left;
+            font-size: 12px;
+            color: #6b6b67;
+            padding: 12px;
+            border-bottom: 2px solid #eee;
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+            white-space: nowrap;      /* Evita que el texto salte de línea */
+            overflow: hidden;         /* Esconde lo que sobra */
+            text-overflow: ellipsis;  /* Agrega los "..." al final */
+        }
+
+        .col-id { width: 8%; }
+        .col-nombre { width: 12%; }
+        .col-pass { width: 15%; color: #888; font-family: monospace; } /* Columna crítica */
+        .col-correo { width: 20%; }
+        .col-rol { width: 10%; }
+        .col-estado { width: 10%; }
+        .col-acciones { width: 25%; text-align: center; }
+
+        .btn-editar {
+            background-color: #01415B;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 11px;
+            margin-right: 4px;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 100%;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sistema de Gestión de Usuarios</h1>
+<a th:href="@{/home}" class="btn-nuevo">Regresar a home</a>
+
+<div class="card">
+    <div class="section-label">Busqueda de usuario</div>
+    <form th:action="@{/usuarios/buscar}" method="get" style="display: flex; align-items: flex-end; gap: 15px;">
+        <div class="field" style="flex: 1;">
+            <label>ID Usuario</label>
+            <input type="number" name="idUsuario" placeholder="Ej: 2" required />
+        </div>
+        <div class="btn-row">
+            <button type="submit" class="btn-nuevo" style="background-color: #185FA5;"> Buscar</button>
+            <a th:href="@{/usuarios}" class="btn-nuevo" style="background-color: #185FA5;" >Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="section-label">Panel de Control</div>
+    <a th:href="@{/usuarios/nuevo}" class="btn-nuevo">+ Registrar Nuevo Usuario</a>
+
+    <div class="section-label">Lista de Usuarios Registrados</div>
+    <table>
+        <thead>
+        <tr>
+            <th class="col-id">Codigo</th>
+            <th class="col-nombre">Nombre</th>
+            <th class="col-pass">Contraseña</th>
+            <th class="col-correo">Correo</th>
+            <th class="col-rol">Rol</th>
+            <th class="col-estado">Estado</th>
+            <th class="col-acciones">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.codigoUsuario}"></td>
+            <td th:text="${usuario.nombreUsuario}"></td>
+            <td th:text="${usuario.contrasenaUsuario}"></td>
+            <td th:text="${usuario.correoUsuario}"></td>
+            <td th:text="${usuario.rol}"></td>
+            <td th:text="${usuario.estadoUsuario}"></td>
+            <td style="text-align:center">
+                <a th:href="@{/usuarios/editar/{id}(id=${usuario.codigoUsuario})}" class="btn-editar">Editar</a>
+                <a th:href="@{/usuarios/eliminar/{id}(id=${usuario.codigoUsuario})}" class="btn-eliminar">Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(usuarios)}">
+            <td colspan  ="5" style="text-align:center">No hay usuarios registrados.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

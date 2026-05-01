@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Tienda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .header-section { padding: 60px 0 40px; }
+        .card {
+          border: none;
+          transition: all 0.3s ease;
+          border-radius: 15px;
+        }
+        .card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        .icon-box {
+          font-size: 2.5rem;
+          margin-bottom: 15px;
+          display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4 text-end">
+    <div class="d-inline-block p-2 bg-white shadow-sm rounded-pill">
+        <span class="me-3 px-3">
+            <i class="bi bi-person-circle"></i>
+            <span sec:authentication="name">Usuario</span>
+            (<span sec:authentication="principal.authorities">Rol</span>)
+        </span>
+        <form th:action="@{/logout}" method="post" class="d-inline">
+            <button type="submit" class="btn btn-danger btn-sm rounded-pill px-4">
+                Salir
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header-section text-center">
+        <h1 class="display-4 fw-bold text-dark">Gestión de Tienda</h1>
+        <p class="lead text-muted">Panel centralizado para administrar tu inventario y ventas</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100 text-center p-3">
+                <div class="card-body d-flex flex-column">
+                    <div class="icon-box text-primary"><i class="bi bi-box-seam"></i></div>
+                    <h5 class="card-title fw-bold">Productos</h5>
+                    <p class="card-text text-muted">Control total de inventario, stock y precios de venta.</p>
+                    <a th:href="@{/productos}" class="btn btn-outline-primary mt-auto rounded-pill">Gestionar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100 text-center p-3">
+                <div class="card-body d-flex flex-column">
+                    <div class="icon-box text-success"><i class="bi bi-tags"></i></div>
+                    <h5 class="card-title fw-bold">Clientes</h5>
+                    <p class="card-text text-muted">Administracion de clientes.</p>
+                    <a th:href="@{/clientes}" class="btn btn-outline-success mt-auto rounded-pill">Organizar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card shadow-sm h-100 text-center p-3">
+                <div class="card-body d-flex flex-column">
+                    <div class="icon-box text-info"><i class="bi bi-people"></i></div>
+                    <h5 class="card-title fw-bold">Usuarios</h5>
+                    <p class="card-text text-muted">Administración de clientes y roles de sistema.</p>
+                    <a th:href="@{/usuarios}" class="btn btn-outline-info mt-auto rounded-pill">Ver Usuarios</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100 text-center p-3">
+                <div class="card-body d-flex flex-column">
+                    <div class="icon-box text-warning"><i class="bi bi-cart-check"></i></div>
+                    <h5 class="card-title fw-bold">Ventas</h5>
+                    <p class="card-text text-muted">Historial de transacciones y estados de envío.</p>
+                    <a th:href="@{/ventas}" class="btn btn-outline-warning mt-auto rounded-pill">Ver ventas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100 text-center p-3">
+                <div class="card-body d-flex flex-column">
+                    <div class="icon-box text-dark"><i class="bi bi-receipt"></i></div>
+                    <h5 class="card-title fw-bold">Detalles de Venta</h5>
+                    <p class="card-text text-muted">Análisis detallado de cada producto vendido.</p>
+                    <a th:href="@{/detalleVentas}" class="btn btn-outline-dark mt-auto rounded-pill">Explorar</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${modoEdicion} ? 'Editar Usuario' : 'Nuevo Detalle Venta'"></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f4f4f4; }
+        .container { width: 100%; max-width: 500px; text-align: center; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { margin-bottom: 20px; color: #333; }
+        .campo { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .error { color: red; font-size: 13px; margin-top: 4px; }
+        .acciones { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; display: inline-block; }
+        .btn-guardar { background-color: #01415B; color: white; }
+        .btn-volver { background-color: #6c757d; color: white; }
+        .btn-eliminar { background-color: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 th:text="${modoEdicion} ? 'Editar Detalle Venta' : 'Nuevo Detalle Venta'"></h1>
+
+    <form th:action="${modoEdicion} ? @{/detalleVentas/actualizar/{id}(id=${detalleVenta.codigoDetalleVenta})} : @{/detalleVentas/guardar}"
+          th:object="${detalleVenta}"
+          method="post">
+
+        <input type="hidden" th:field="*{idDetalle}" th:if="${modoEdicion}">
+
+
+
+        <div class="campo">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" id="cantidad" th:field="*{cantidad}">
+            <div class="error" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="precioUnitario">precio</label>
+            <input type="number" id="precioUnitario" th:field="*{precioUnitario}">
+            <div class="error" th:if="${#fields.hasErrors('precioUnitario')}" th:errors="*{precioUnitario}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="subtotal"> subtotal</label>
+            <input type="number" id="subtotal" th:field="*{subtotal}">
+            <div class="error" th:if="${#fields.hasErrors('subtotal')}" th:errors="*{subtotal}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="idProducto">Id producto</label>
+            <input type="number" id="idProducto" th:field="*{idProducto}">
+            <div class="error" th:if="${#fields.hasErrors('idProducto')}" th:errors="*{idProducto}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="idVenta">Id venta</label>
+            <input type="number" id="idVenta" th:field="*{idVenta}">
+            <div class="error" th:if="${#fields.hasErrors('idVenta')}" th:errors="*{idVenta}"></div>
+        </div>
+
+
+        <div class="acciones">
+            <button type="submit" class="btn btn-guardar"
+                    th:text="${modoEdicion} ? 'Actualizar' : 'Guardar'"></button>
+
+            <a th:href="@{/detalleVentas}" class="btn btn-volver">Volver</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

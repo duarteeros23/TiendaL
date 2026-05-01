@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda | Crear Cuenta</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at top right, #fffdf2 0%, #f0f7ff 100%);
+        padding: 20px;
+    }
+
+    .contenedor {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .tarjeta {
+        background: #ffffff;
+        border-radius: 30px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        text-align: center;
+        border: 1px solid #f1f5f9;
+        animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-texto {
+        font-size: 24px;
+        font-weight: 900;
+        color: #1e40af;
+        letter-spacing: -1px;
+        margin-bottom: 20px;
+        display: block;
+        text-transform: uppercase;
+    }
+
+    .titulo {
+        font-size: 28px;
+        color: #1e293b;
+        margin-bottom: 8px;
+        font-weight: 800;
+    }
+
+    .subtitulo {
+        font-size: 15px;
+        color: #64748b;
+        margin-bottom: 30px;
+    }
+
+    .mensaje-error {
+        background: #fff1f2;
+        color: #e11d48;
+        border: 1px solid #ffe4e6;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .campo {
+        margin-bottom: 18px;
+        text-align: left;
+    }
+
+    .campo label {
+        display: block;
+        font-size: 12px;
+        color: #1e293b;
+        margin-bottom: 6px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .campo input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 2px solid #f1f5f9;
+        border-radius: 16px;
+        font-size: 14px;
+        outline: none;
+        background: #f8fafc;
+        transition: all 0.2s ease;
+        color: #334155;
+    }
+
+    .campo input:focus {
+        border-color: #3b82f6;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+
+    .campo input[type="file"] {
+        padding: 10px;
+        font-size: 12px;
+        border: 2px dashed #cbd5e1;
+        background: transparent;
+    }
+
+    .error-valid {
+        color: #e11d48;
+        font-size: 11px;
+        margin-top: 4px;
+        font-weight: 600;
+    }
+
+    .boton {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 18px;
+        background: #ea580c;
+        color: white;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 15px -3px rgba(234, 88, 12, 0.3);
+        margin-top: 10px;
+    }
+
+    .boton:hover {
+        background: #c2410c;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 20px -5px rgba(234, 88, 12, 0.4);
+    }
+
+    .pie {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .pie a {
+        color: #3b82f6;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .pie a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+        .tarjeta { padding: 30px 20px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="contenedor">
+  <div class="tarjeta">
+    <span class="logo-texto">Tienda</span>
+    <h2 class="titulo">Crear cuenta</h2>
+
+    <div th:if="${error}" class="mensaje-error" th:text="${error}"></div>
+
+    <form th:action="@{/register}" th:object="${user}" method="post">
+      <div class="campo">
+        <label>Nombre de usuario</label>
+        <input type="text" th:field="*{nombreUsuario}" id="nombreUsuario" name="nombreUsuario" placeholder="Tu nombre" required>
+        <div class="error-valid" th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}"></div>
+      </div>
+
+      <div class="campo">
+        <label>Correo Electrónico</label>
+        <input type="email" th:field="*{correoUsuario}" id="correoUsuario" name="correoUsuario" placeholder="ejemplo@correo.com" required>
+        <div class="error-valid" th:if="${#fields.hasErrors('correoUsuario')}" th:errors="*{correoUsuario}"></div>
+      </div>
+
+      <div class="campo">
+        <label>Contraseña</label>
+        <input type="password" th:field="*{contrasenaUsuario}" id="contrasenaUsuario" name="contrasenaUsuario" placeholder="Mínimo 8 caracteres" required>
+        <div class="error-valid" th:if="${#fields.hasErrors('contrasenaUsuario')}" th:errors="*{contrasenaUsuario}"></div>
+      </div>
+
+      <button type="submit" class="boton">Registrarse ahora</button>
+    </form>
+
+    <div class="pie">
+      ¿Ya eres miembro? <a th:href="@{/login}">Inicia sesión aquí</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
