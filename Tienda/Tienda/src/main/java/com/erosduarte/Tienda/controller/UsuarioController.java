@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@Validated
 @RequestMapping("/usuarios")
 public class UsuarioController {
     private final UsuariosService usuariosService;

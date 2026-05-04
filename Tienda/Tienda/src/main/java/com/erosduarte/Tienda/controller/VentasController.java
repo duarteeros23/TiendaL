@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@Validated
 @RequestMapping("/ventas")
 public class VentasController {
 
