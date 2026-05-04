@@ -30,9 +30,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register", "/css/**", "/js/**"). permitAll()
+                        .requestMatchers("/login", "/register", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers("/productos/**", "/ventas/**", "/clientes/**").hasAnyRole("ADMIN", "VENDEDOR")
+                        .requestMatchers("/productos/**", "/ventas/**", "/clientes/**", "/detalleVentas/**")
+                        .hasAnyRole("ADMIN", "VENDEDOR", "USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
